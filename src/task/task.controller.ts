@@ -8,6 +8,7 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   //#region: Get a task by id
+  @ApiOperation({ summary: 'Return a single task' })
   @ApiParam({
     name: 'id',
     description: '64120729f1cdae5c6dd9a686',
@@ -25,7 +26,7 @@ export class TaskController {
   //#endregion
 
   //#region: Create a Task
-  @ApiOperation({ summary: 'Create cat' })
+  @ApiOperation({ summary: 'Create task' })
   @ApiResponse({
     status: 200,
     description: 'A single task based in the id passed in URL',
