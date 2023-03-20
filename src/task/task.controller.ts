@@ -1,11 +1,24 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { NewTask, NewTaskReturn, Task } from './dto';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { NewTask, NewTaskReturn, Task, TaskResponse } from './dto';
 import { TaskService } from './task.service';
 
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
+
+  //#region: Create a Task
+  @ApiOperation({ summary: 'Create task' })
+  @ApiResponse({
+    status: 200,
+    description: 'Creating a task',
+    type: NewTaskReturn,
+  })
+  @Post()
+  async createTask(@Body() newTask: NewTask): Promise<NewTaskReturn> {
+    return this.taskService.createTask(newTask);
+  }
+  //#endregion
 
   //#region: Get a task by id
   @ApiOperation({ summary: 'Return a single task' })
@@ -25,16 +38,16 @@ export class TaskController {
   }
   //#endregion
 
-  //#region: Create a Task
-  @ApiOperation({ summary: 'Create task' })
+  //#region: Get a task by id
+  @ApiOperation({ summary: 'Return all tasks' })
   @ApiResponse({
     status: 200,
-    description: 'Creating a task',
-    type: NewTaskReturn,
+    description: 'A single task based in the id passed in URL',
+    type: TaskResponse,
   })
-  @Post()
-  async createTask(@Body() newTask: NewTask): Promise<NewTaskReturn> {
-    return this.taskService.createTask(newTask);
+  @Get()
+  async getAll(): Promise<TaskResponse> {
+    return this.taskService.getAllTasks();
   }
   //#endregion
 }
