@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { NewTask, NewTaskReturn, Task, TaskResponse } from './dto';
+import { NewTask, NewTaskReturn, TaskResponse } from './dto';
+import { TasksResponse } from './dto/TaskResponse.dto';
 import { TaskService } from './task.service';
 
 @Controller('task')
@@ -30,10 +31,10 @@ export class TaskController {
   @ApiResponse({
     status: 200,
     description: 'A single task based in the id passed in URL',
-    type: Task,
+    type: TaskResponse,
   })
   @Get(':id')
-  async getTaskById(@Param() id: string): Promise<Task> {
+  async getTaskById(@Param() id: string): Promise<TaskResponse> {
     return this.taskService.getTaskById(id);
   }
   //#endregion
@@ -46,7 +47,7 @@ export class TaskController {
     type: TaskResponse,
   })
   @Get()
-  async getAll(): Promise<TaskResponse> {
+  async getAll(): Promise<TasksResponse> {
     return this.taskService.getAllTasks();
   }
   //#endregion

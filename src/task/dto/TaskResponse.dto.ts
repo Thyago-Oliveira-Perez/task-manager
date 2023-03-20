@@ -1,7 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ITask } from '../types/ITask.type';
+import { Task } from '../entities/task.entity';
 
-export class Task implements ITask {
+export class TaskResponse implements Task {
+  @ApiProperty({
+    example: '64120729f1cdae5c6dd9a686',
+    description: `Identifier of the task`,
+  })
+  _id: string;
+
   @ApiProperty({
     example: 'Solve two logic exercises',
     description: `The title of the task`,
@@ -27,6 +33,6 @@ export class Task implements ITask {
   updatedAt: Date;
 }
 
-export class TaskResponse {
-  tasks: Task[];
+export class TasksResponse {
+  tasks: TaskResponse[];
 }
