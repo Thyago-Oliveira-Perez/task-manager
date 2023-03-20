@@ -7,8 +7,8 @@ Task manager API with [Nest](https://github.com/nestjs/nest) framework repositor
 ## Pré requisitos
 
 ```bash
-$ docker
-$ node versão 16.14.0 ou superior
+* docker
+* node versão 16.14.0 ou superior
 ```
 
 ## Comandos iniciais
