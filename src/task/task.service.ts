@@ -1,42 +1,33 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MongoRepository } from 'typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
 import { TasksResponse } from './dto/TaskResponse.dto';
-import { Task } from './entities/task.entity';
+import { Task } from './schemas/task.schemas';
 
 @Injectable()
 export class TaskService {
-  private readonly logger = new Logger();
+  private readonly logger = new Logger(Task.name);
 
   constructor(
-    @InjectRepository(Task)
-    private readonly taskRepository: MongoRepository<Task>,
+    @InjectModel(Task.name)
+    private readonly taskModel: Model<Task>,
   ) {}
 
-  private tasks: TaskResponse[] = [];
-
   async createTask(task: NewTask): Promise<NewTaskReturn> {
-    const { title, content } = task;
+    const newTask = await this.taskModel.create(task);
+    newTask.save();
 
-    this.tasks.push({
-      _id: '',
-      title,
-      content,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-
-    this.logger.log(task);
+    this.logger.log(newTask);
 
     return { message: 'new Task registered' };
   }
 
   async getTaskById(id: string): Promise<TaskResponse> {
-    return this.tasks[0];
+    return await this.taskModel.findById({ _id: id });
   }
 
   async getAllTasks(): Promise<TasksResponse> {
-    return { tasks: this.tasks };
+    return { tasks: await this.taskModel.find() };
   }
 }

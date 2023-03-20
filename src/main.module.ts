@@ -1,27 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TaskController } from './task/task.controller';
 import { TaskModule } from './task/task.module';
-import { TaskService } from './task/task.service';
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Task } from './task/entities/task.entity';
+import { MongooseModule } from '@nestjs/mongoose';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
 
 @Module({
-  imports: [
-    TaskModule,
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: process.env.MONGODB_CONNECTION_STRING,
-      database: process.env.MONGODB_DATABASE,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      ssl: true,
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-    }),
-    TypeOrmModule.forFeature([Task]),
-  ],
-  controllers: [TaskController],
-  providers: [TaskService],
+  imports: [TaskModule, MongooseModule.forRoot(process.env.MONGO_URI)],
+  controllers: [],
 })
 export class AppModule {}

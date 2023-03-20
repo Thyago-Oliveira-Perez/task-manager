@@ -25,6 +25,7 @@ export class TaskController {
   @ApiOperation({ summary: 'Return a single task' })
   @ApiParam({
     name: 'id',
+    type: 'string',
     description: '64120729f1cdae5c6dd9a686',
     required: true,
   })
@@ -33,9 +34,9 @@ export class TaskController {
     description: 'A single task based in the id passed in URL',
     type: TaskResponse,
   })
-  @Get(':id')
-  async getTaskById(@Param() id: string): Promise<TaskResponse> {
-    return this.taskService.getTaskById(id);
+  @Get('/:id')
+  async getTaskById(@Param() param): Promise<TaskResponse> {
+    return this.taskService.getTaskById(param.id);
   }
   //#endregion
 
