@@ -29,8 +29,8 @@ export class TaskController {
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({
     status: 200,
-    description: 'A single task based in the id passed in URL',
-    type: Task,
+    description: 'Creating a task',
+    type: NewTaskReturn,
   })
   @Post()
   async createTask(@Body() newTask: NewTask): Promise<NewTaskReturn> {

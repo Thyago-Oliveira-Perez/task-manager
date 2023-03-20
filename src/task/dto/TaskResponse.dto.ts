@@ -10,7 +10,7 @@ export class Task implements ITask {
 
   @ApiProperty({
     example: 'At 3pm I will sit to study logic exercises in Java.',
-    description: `How much the user won`,
+    description: `The description of the task`,
   })
   content: string;
 
