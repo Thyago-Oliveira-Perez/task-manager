@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
@@ -49,15 +49,18 @@ export class TaskService {
     const { title, content } = newTask;
 
     try {
-      await this.taskModel.updateOne(
+      const update = await this.taskModel.updateOne(
         { _id: id },
         { title: title, content: content },
       );
 
+      if (update.modifiedCount <= 0) {
+        throw new HttpException('TASK_NOT_FOUND', HttpStatus.NOT_FOUND);
+      }
+
       return await this.taskModel.findById({ _id: id });
     } catch (e) {
-      this.logger.log(e.message);
-      throw e.message;
+      throw new HttpException(e.message, HttpStatus.NOT_FOUND);
     }
   }
 }
