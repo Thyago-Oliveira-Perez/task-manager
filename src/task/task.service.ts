@@ -15,30 +15,49 @@ export class TaskService {
   ) {}
 
   async createTask(task: NewTask): Promise<NewTaskReturn> {
-    const newTask = await this.taskModel.create(task);
-    newTask.save();
+    try {
+      const newTask = await this.taskModel.create(task);
+      newTask.save();
 
-    this.logger.log(newTask);
+      this.logger.log(newTask);
 
-    return { message: 'new Task registered' };
+      return { message: 'new Task registered' };
+    } catch (e) {
+      this.logger.log(e.message);
+    }
   }
 
   async getTaskById(id: string): Promise<TaskResponse> {
-    return await this.taskModel.findById({ _id: id });
+    try {
+      return await this.taskModel.findById({ _id: id });
+    } catch (e) {
+      this.logger.log(e.message, 'Invalid taskId');
+      throw e.message;
+    }
   }
 
   async getAllTasks(): Promise<TasksResponse> {
-    return { tasks: await this.taskModel.find() };
+    try {
+      return { tasks: await this.taskModel.find() };
+    } catch (e) {
+      this.logger.log(e.message);
+      throw e.message;
+    }
   }
 
   async editTaskById(id: string, newTask: Task): Promise<Task> {
     const { title, content } = newTask;
 
-    await this.taskModel.updateOne(
-      { _id: id },
-      { title: title, content: content },
-    );
+    try {
+      await this.taskModel.updateOne(
+        { _id: id },
+        { title: title, content: content },
+      );
 
-    return await this.taskModel.findById({ _id: id });
+      return await this.taskModel.findById({ _id: id });
+    } catch (e) {
+      this.logger.log(e.message);
+      throw e.message;
+    }
   }
 }
