@@ -30,4 +30,15 @@ export class TaskService {
   async getAllTasks(): Promise<TasksResponse> {
     return { tasks: await this.taskModel.find() };
   }
+
+  async editTaskById(id: string, newTask: Task): Promise<Task> {
+    const { title, content } = newTask;
+
+    await this.taskModel.updateOne(
+      { _id: id },
+      { title: title, content: content },
+    );
+
+    return await this.taskModel.findById({ _id: id });
+  }
 }

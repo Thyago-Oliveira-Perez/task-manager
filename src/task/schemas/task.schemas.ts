@@ -9,8 +9,8 @@ export class Task implements ITask {
   @Prop({ required: true })
   content: string;
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

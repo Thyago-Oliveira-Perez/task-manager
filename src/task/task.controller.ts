@@ -1,14 +1,15 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
 import { TasksResponse } from './dto/TaskResponse.dto';
+import { Task } from './schemas/task.schemas';
 import { TaskService } from './task.service';
 
 @Controller('task')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
-  //#region: Create a Task
+  //#region Create a Task
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({
     status: 200,
@@ -21,7 +22,7 @@ export class TaskController {
   }
   //#endregion
 
-  //#region: Get a task by id
+  //#region Get a task by id
   @ApiOperation({ summary: 'Return a single task' })
   @ApiParam({
     name: 'id',
@@ -40,7 +41,7 @@ export class TaskController {
   }
   //#endregion
 
-  //#region: Get a task by id
+  //#region Get a task by id
   @ApiOperation({ summary: 'Return all tasks' })
   @ApiResponse({
     status: 200,
@@ -50,6 +51,25 @@ export class TaskController {
   @Get()
   async getAll(): Promise<TasksResponse> {
     return this.taskService.getAllTasks();
+  }
+  //#endregion
+
+  //#region Get a task by id
+  @ApiOperation({ summary: 'Edit task bt id' })
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+    description: '64120729f1cdae5c6dd9a686',
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Edit a specific task based on the id param',
+    type: TaskResponse,
+  })
+  @Put('/:id')
+  async editById(@Param() param, @Body() body: Task): Promise<Task> {
+    return this.taskService.editTaskById(param.id, body);
   }
   //#endregion
 }
