@@ -1,4 +1,4 @@
-# Setup - Bet Secret API
+# Setup - Task Manager API
 
 ## Descrição
 
