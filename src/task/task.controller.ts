@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Delete } from '@nestjs/common/decorators';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
-import { TasksResponse } from './dto/TaskResponse.dto';
+import { TaskDeletedResponse, TasksResponse } from './dto/TaskResponse.dto';
 import { Task } from './schemas/task.schemas';
 import { TaskService } from './task.service';
 
@@ -70,6 +71,25 @@ export class TaskController {
   @Put('/:id')
   async editById(@Param() param, @Body() body: Task): Promise<Task> {
     return this.taskService.editTaskById(param.id, body);
+  }
+  //#endregion
+
+  //#region Delete task by id
+  @ApiOperation({ summary: 'Delete task bt id' })
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+    description: '64120729f1cdae5c6dd9a686',
+    required: true,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Inform if the operation was sucessfully',
+    type: TaskDeletedResponse,
+  })
+  @Delete('/:id')
+  async deleteById(@Param() param): Promise<TaskDeletedResponse> {
+    return this.taskService.deletedTaskById(param.id);
   }
   //#endregion
 }

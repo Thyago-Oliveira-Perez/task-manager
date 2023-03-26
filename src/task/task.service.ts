@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
-import { TasksResponse } from './dto/TaskResponse.dto';
+import { TaskDeletedResponse, TasksResponse } from './dto/TaskResponse.dto';
 import { Task } from './schemas/task.schemas';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class TaskService {
       const newTask = await this.taskModel.create(task);
       newTask.save();
 
-      this.logger.log(newTask);
+      this.logger.log(`New task created: ${newTask.id}`);
 
       return { message: 'new Task registered' };
     } catch (e) {
@@ -59,6 +59,18 @@ export class TaskService {
       }
 
       return await this.taskModel.findById({ _id: id });
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async deletedTaskById(id: string): Promise<TaskDeletedResponse> {
+    try {
+      await this.taskModel.deleteOne({
+        _id: id,
+      });
+
+      return { message: 'Task deleted sucessfully' };
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.NOT_FOUND);
     }

@@ -33,6 +33,13 @@ export class TaskResponse implements Task {
   updatedAt: Date;
 }
 
+export class TaskDeletedResponse {
+  @ApiProperty({
+    example: 'Task deleted sucessfully',
+  })
+  message: string;
+}
+
 export class TasksResponse {
   tasks: TaskResponse[];
 }
