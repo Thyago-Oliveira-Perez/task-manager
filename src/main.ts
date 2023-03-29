@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './main.module';
@@ -5,6 +6,8 @@ import { AppModule } from './main.module';
 require('dotenv').config();
 
 async function bootstrap() {
+  const logger = new Logger();
+
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
@@ -16,5 +19,8 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT);
+  logger.log(
+    `Application running on port: http://localhost:${process.env.PORT}`,
+  );
 }
 bootstrap();

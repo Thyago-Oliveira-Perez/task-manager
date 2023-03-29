@@ -4,7 +4,7 @@ import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
 import { TaskDeletedResponse, TasksResponse } from './dto/TaskResponse.dto';
 import { Task } from './schemas/task.schemas';
-import { TaskService } from './task.service';
+import { TaskService } from './services/task.service';
 
 @Controller('task')
 export class TaskController {
