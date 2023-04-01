@@ -10,6 +10,10 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: process.env.FRONT_URL,
+  });
+
   const options = new DocumentBuilder()
     .setTitle('Task Manager API')
     .setDescription('API description')
