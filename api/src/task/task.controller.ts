@@ -56,7 +56,7 @@ export class TaskController {
   //#endregion
 
   //#region Get a task by id
-  @ApiOperation({ summary: 'Edit task bt id' })
+  @ApiOperation({ summary: 'Edit task by id' })
   @ApiParam({
     name: 'id',
     type: 'string',
@@ -75,7 +75,7 @@ export class TaskController {
   //#endregion
 
   //#region Delete task by id
-  @ApiOperation({ summary: 'Delete task bt id' })
+  @ApiOperation({ summary: 'Delete task by id' })
   @ApiParam({
     name: 'id',
     type: 'string',
