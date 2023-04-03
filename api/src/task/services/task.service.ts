@@ -1,35 +1,31 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { NewTask, NewTaskReturn, TaskResponse } from '../dto';
 import { TaskDeletedResponse, TasksResponse } from '../dto/TaskResponse.dto';
-import { Task } from '../schemas/task.schemas';
+import { Task } from '../entities/task.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TaskService {
   private readonly logger = new Logger(Task.name);
 
   constructor(
-    @InjectModel(Task.name)
-    private readonly taskModel: Model<Task>,
+    @InjectRepository(Task)
+    private readonly taskRepository: Repository<Task>,
   ) {}
 
   async createTask(task: NewTask): Promise<NewTaskReturn> {
     try {
-      const newTask = await this.taskModel.create(task);
-      newTask.save();
-
-      this.logger.log(`New task created: ${newTask.id}`);
-
+      await this.taskRepository.save(task);
       return { message: 'new Task registered' };
     } catch (e) {
       this.logger.log(e.message);
     }
   }
 
-  async getTaskById(id: string): Promise<TaskResponse> {
+  async getTaskById(id: number): Promise<TaskResponse> {
     try {
-      return await this.taskModel.findById({ _id: id });
+      return await this.taskRepository.findOneBy({ id: id });
     } catch (e) {
       this.logger.log(e.message, 'Invalid taskId');
       throw e.message;
@@ -38,36 +34,38 @@ export class TaskService {
 
   async getAllTasks(): Promise<TasksResponse> {
     try {
-      return { tasks: await this.taskModel.find() };
+      return { tasks: await this.taskRepository.find() };
     } catch (e) {
       this.logger.log(e.message);
       throw e.message;
     }
   }
 
-  async editTaskById(id: string, newTask: Task): Promise<Task> {
+  //O usuário consegue editar as tasks de qualquer usuario
+  async editTaskById(id: number, newTask: Task): Promise<Task> {
     const { title, content } = newTask;
 
     try {
-      const update = await this.taskModel.updateOne(
-        { _id: id },
-        { title: title, content: content },
-      );
+      const task = await this.taskRepository.findOneBy({ id: id });
 
-      if (update.modifiedCount <= 0) {
+      if (!task) {
         throw new HttpException('TASK_NOT_FOUND', HttpStatus.NOT_FOUND);
       }
 
-      return await this.taskModel.findById({ _id: id });
+      task.title = title;
+      task.content = content;
+      task.updatedAt = new Date();
+
+      return await this.taskRepository.save(task);
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.NOT_FOUND);
     }
   }
 
-  async deletedTaskById(id: string): Promise<TaskDeletedResponse> {
+  async deletedTaskById(id: number): Promise<TaskDeletedResponse> {
     try {
-      await this.taskModel.deleteOne({
-        _id: id,
+      await this.taskRepository.delete({
+        id: id,
       });
 
       return { message: 'Task deleted sucessfully' };
