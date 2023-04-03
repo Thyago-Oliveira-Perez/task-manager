@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Task } from '../schemas/task.schemas';
+import { Task } from '../entities/task.entity';
 
 export class TaskResponse implements Task {
   @ApiProperty({
     example: '64120729f1cdae5c6dd9a686',
     description: `Identifier of the task`,
   })
-  _id: string;
+  id: number;
 
   @ApiProperty({
     example: 'Solve two logic exercises',
@@ -24,13 +24,13 @@ export class TaskResponse implements Task {
     example: '2021-11-09T13:32:53.470+00:00',
     description: `When this task was register in the database`,
   })
-  createdAt: Date;
+  createdAt?: Date;
 
   @ApiProperty({
     example: '2021-11-09T13:32:53.470+00:00',
     description: `When this object was updated in the database`,
   })
-  updatedAt: Date;
+  updatedAt?: Date;
 }
 
 export class TaskDeletedResponse {

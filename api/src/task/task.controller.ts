@@ -3,7 +3,7 @@ import { Delete } from '@nestjs/common/decorators';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
 import { TaskDeletedResponse, TasksResponse } from './dto/TaskResponse.dto';
-import { Task } from './schemas/task.schemas';
+import { Task } from './entities/task.entity';
 import { TaskService } from './services/task.service';
 
 @Controller('task')
@@ -37,8 +37,8 @@ export class TaskController {
     type: TaskResponse,
   })
   @Get('/:id')
-  async getTaskById(@Param() param): Promise<TaskResponse> {
-    return this.taskService.getTaskById(param.id);
+  async getTaskById(@Param('id') id: number): Promise<TaskResponse> {
+    return this.taskService.getTaskById(id);
   }
   //#endregion
 
