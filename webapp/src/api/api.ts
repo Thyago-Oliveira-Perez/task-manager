@@ -8,6 +8,10 @@ export default class Api {
     headers: { "Content-type": "application/json" },
   });
 
+  public async login(login: {}) {
+    return await this.axiosClient.post(`${this.url}/auth`, login);
+  }
+
   public async getAllTasksByUserId() {
     return await this.axiosClient.get(`${this.url}/task`);
   }

@@ -1,9 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'api/src/user/services/user.service';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger();
+
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
@@ -19,6 +21,7 @@ export class AuthService {
 
     const payload = { username: username, sub: user.id };
 
+    this.logger.log('User logged successfuly');
     return {
       acess_token: await this.jwtService.signAsync(payload, {
         secret:
