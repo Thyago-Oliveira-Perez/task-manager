@@ -1,15 +1,16 @@
 export default class AuthService {
   setLoggedUser(userLogged: any) {
     if (userLogged != null) {
-      let parsedData = JSON.stringify(userLogged.data);
+      const parsedData = JSON.stringify(userLogged.data);
       localStorage.setItem("user", parsedData);
     }
   }
 
   getUser() {
-    let user = localStorage.getItem("user");
+    const user = localStorage.getItem("user");
+
     if (user != null) {
-      return JSON.parse(user).accessToken;
+      return JSON.parse(user);
     }
     return user;
   }

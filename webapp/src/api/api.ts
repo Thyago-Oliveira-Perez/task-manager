@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { LoginResponse } from "../login/types";
 
 export default class Api {
   private url = "http://localhost:3000";
@@ -8,7 +9,7 @@ export default class Api {
     headers: { "Content-type": "application/json" },
   });
 
-  public async login(login: {}) {
+  public async login(login: {}): Promise<LoginResponse> {
     return await this.axiosClient.post(`${this.url}/auth`, login);
   }
 

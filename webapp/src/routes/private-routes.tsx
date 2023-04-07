@@ -7,8 +7,6 @@ const PrivateRoutes = () => {
 
   const signed = authService.getUser();
 
-  console.log(signed);
-
   return signed ? <TasksPage /> : <Navigate to="/" />;
 };
 
