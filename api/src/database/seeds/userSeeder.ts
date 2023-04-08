@@ -13,6 +13,11 @@ export default class UserSeeder {
         name: 'admin',
         password: 'admin',
       },
+      {
+        id: 4,
+        name: 'carlos',
+        password: '05923_87423',
+      },
     ];
 
     const tasks: Task[] = [];
@@ -35,13 +40,17 @@ export default class UserSeeder {
         id: i,
         title: titles[i - 1],
         content: '',
-        userId: 1,
+        userId: titles[i - 1] === 'MERIDIA{3D1Ted}' ? 4 : 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
     }
 
-    await userRepository.insert(users);
-    await taskRepository.insert(tasks);
+    if ((await userRepository.find()).length === 0) {
+      await userRepository.insert(users);
+    }
+    if ((await taskRepository.find()).length === 0) {
+      await taskRepository.insert(tasks);
+    }
   }
 }
