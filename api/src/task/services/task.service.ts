@@ -1,9 +1,17 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { NewTask, NewTaskReturn, TaskResponse } from '../dto';
 import { TaskDeletedResponse, TasksResponse } from '../dto/TaskResponse.dto';
 import { Task } from '../entities/task.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class TaskService {
@@ -12,17 +20,27 @@ export class TaskService {
   constructor(
     @InjectRepository(Task)
     private readonly taskRepository: Repository<Task>,
+    private jwtService: JwtService,
   ) {}
 
-  async createTask(task: NewTask): Promise<NewTaskReturn> {
+  async createTask(task: NewTask, request: Request): Promise<NewTaskReturn> {
+    const userId = await this.getUserIdFromToken(request);
+
+    let newTask: Task = null;
+
+    newTask.title = task.title;
+    newTask.content = task.content;
+    newTask.userId = userId;
+
     try {
-      await this.taskRepository.save(task);
+      await this.taskRepository.save(newTask);
       return { message: 'new Task registered' };
     } catch (e) {
       this.logger.log(e.message);
     }
   }
 
+  //O usuário consegue visualizar as tasks de qualquer usuario
   async getTaskById(id: number): Promise<TaskResponse> {
     try {
       return await this.taskRepository.findOneBy({ id: id });
@@ -32,9 +50,13 @@ export class TaskService {
     }
   }
 
-  async getAllTasks(): Promise<TasksResponse> {
+  async getAllTasks(request: Request): Promise<TasksResponse> {
+    const userId = await this.getUserIdFromToken(request);
+
     try {
-      return { tasks: await this.taskRepository.find() };
+      return {
+        tasks: await this.taskRepository.findBy({ userId: userId }),
+      };
     } catch (e) {
       this.logger.log(e.message);
       throw e.message;
@@ -62,6 +84,7 @@ export class TaskService {
     }
   }
 
+  //O usuário consegue deletar as tasks de qualquer usuario
   async deletedTaskById(id: number): Promise<TaskDeletedResponse> {
     try {
       await this.taskRepository.delete({
@@ -72,5 +95,20 @@ export class TaskService {
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.NOT_FOUND);
     }
+  }
+
+  //helper
+  private async getUserIdFromToken(request: Request): Promise<number> {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+
+    if (!token) {
+      throw new UnauthorizedException();
+    }
+
+    const paylaod = await this.jwtService.verifyAsync(token, {
+      secret: process.env.SECRET,
+    });
+
+    return paylaod.sub;
   }
 }

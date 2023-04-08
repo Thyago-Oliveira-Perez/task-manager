@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { Delete } from '@nestjs/common/decorators';
+import { Delete, Req } from '@nestjs/common/decorators';
 import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { NewTask, NewTaskReturn, TaskResponse } from './dto';
 import { TaskDeletedResponse, TasksResponse } from './dto/TaskResponse.dto';
 import { Task } from './entities/task.entity';
 import { TaskService } from './services/task.service';
+import { Request } from 'express';
 
 @Controller('task')
 export class TaskController {
@@ -18,8 +19,11 @@ export class TaskController {
     type: NewTaskReturn,
   })
   @Post()
-  async createTask(@Body() newTask: NewTask): Promise<NewTaskReturn> {
-    return this.taskService.createTask(newTask);
+  async createTask(
+    @Body() newTask: NewTask,
+    @Req() req: Request,
+  ): Promise<NewTaskReturn> {
+    return this.taskService.createTask(newTask, req);
   }
   //#endregion
 
@@ -50,8 +54,8 @@ export class TaskController {
     type: TaskResponse,
   })
   @Get()
-  async getAll(): Promise<TasksResponse> {
-    return this.taskService.getAllTasks();
+  async getAll(@Req() req: Request): Promise<TasksResponse> {
+    return this.taskService.getAllTasks(req);
   }
   //#endregion
 

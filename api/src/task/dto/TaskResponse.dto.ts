@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Task } from '../entities/task.entity';
 
-export class TaskResponse implements Task {
+export class TaskResponse {
   @ApiProperty({
     example: '64120729f1cdae5c6dd9a686',
     description: `Identifier of the task`,
