@@ -17,6 +17,9 @@ export class Task implements ITask {
   @Column({ type: String, nullable: false })
   content: string;
 
+  @Column({ type: Number, nullable: false })
+  userId: number;
+
   @CreateDateColumn({ type: Date, nullable: true })
   createdAt?: Date;
 

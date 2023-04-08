@@ -22,11 +22,13 @@ export class AuthService {
     const payload = { username: username, sub: user.id };
 
     this.logger.log('User logged successfuly');
+
+    const token = await this.jwtService.signAsync(payload, {
+      secret: process.env.SECRET,
+    });
+
     return {
-      acess_token: await this.jwtService.signAsync(payload, {
-        secret:
-          'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.',
-      }),
+      acess_token: token,
     };
   }
 }

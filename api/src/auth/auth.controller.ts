@@ -10,13 +10,9 @@ export class AuthController {
 
   //#region Login
   @ApiOperation({ summary: 'Login into the application' })
-  @ApiResponse({
-    status: 200,
-    description: 'API message if the loggin was successfuly',
-  })
   @Post()
   async logIn(@Body() logInDto: LogInDto): Promise<LogInResponse> {
-    return this.authService.signIn(logInDto.username, logInDto.password);
+    return await this.authService.signIn(logInDto.username, logInDto.password);
   }
   //#endregion
 }
