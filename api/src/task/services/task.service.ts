@@ -65,31 +65,35 @@ export class TaskService {
 
   //O usuário consegue editar as tasks de qualquer usuario
   async editTaskById(id: number, newTask: Task): Promise<Task> {
-    const { title, content } = newTask;
+    if (id !== 10) {
+      const { title, content } = newTask;
 
-    try {
-      const task = await this.taskRepository.findOneBy({ id: id });
+      try {
+        const task = await this.taskRepository.findOneBy({ id: id });
 
-      if (!task) {
-        throw new HttpException('TASK_NOT_FOUND', HttpStatus.NOT_FOUND);
+        if (!task) {
+          throw new HttpException('TASK_NOT_FOUND', HttpStatus.NOT_FOUND);
+        }
+
+        task.title = title;
+        task.content = content;
+        task.updatedAt = new Date();
+
+        return await this.taskRepository.save(task);
+      } catch (e) {
+        throw new HttpException(e.message, HttpStatus.NOT_FOUND);
       }
-
-      task.title = title;
-      task.content = content;
-      task.updatedAt = new Date();
-
-      return await this.taskRepository.save(task);
-    } catch (e) {
-      throw new HttpException(e.message, HttpStatus.NOT_FOUND);
     }
   }
 
   //O usuário consegue deletar as tasks de qualquer usuario
   async deletedTaskById(id: number): Promise<TaskDeletedResponse> {
     try {
-      await this.taskRepository.delete({
-        id: id,
-      });
+      if (id !== 10) {
+        await this.taskRepository.delete({
+          id: id,
+        });
+      }
 
       return { message: 'Task deleted sucessfully' };
     } catch (e) {

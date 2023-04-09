@@ -1,17 +1,11 @@
 export default class AuthService {
-  setLoggedUser(userLogged: any) {
-    if (userLogged != null) {
-      const parsedData = JSON.stringify(userLogged.data);
-      localStorage.setItem("user", parsedData);
-    }
-  }
-
   getUser() {
     const user = localStorage.getItem("user");
 
     if (user != null) {
       return JSON.parse(user);
     }
+
     return user;
   }
 
@@ -19,3 +13,17 @@ export default class AuthService {
     localStorage.removeItem("user");
   }
 }
+
+export const isAuthenticated = () => {
+  const user = localStorage.getItem("user");
+
+  if (user !== null || user !== undefined) {
+    return true;
+  }
+
+  return false;
+};
+
+export const saveToken = (token: any) => {
+  localStorage.setItem("user", JSON.stringify(token));
+};
