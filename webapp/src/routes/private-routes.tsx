@@ -1,13 +1,8 @@
-import { Navigate } from "react-router-dom";
-import { TasksPage } from "../tasks";
-import AuthService from "../services/auth.service";
+import { Navigate, Outlet } from "react-router-dom";
+import { isAuthenticated } from "../services/auth.service";
 
 const PrivateRoutes = () => {
-  const authService = new AuthService();
-
-  const signed = authService.getUser();
-
-  return signed ? <TasksPage /> : <Navigate to="/" />;
+  return isAuthenticated() != undefined ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoutes;

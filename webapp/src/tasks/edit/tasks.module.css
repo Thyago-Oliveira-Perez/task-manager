@@ -1,0 +1,39 @@
+.inputArea {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 20px 0;
+}
+
+label {
+  color: #213547;
+  font-size: 24px;
+}
+
+input {
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.buttonArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.saveButton {
+  background-color: #4da6ff;
+}
+
+.deleteButton {
+  background-color: #ff4d4d;
+}

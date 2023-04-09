@@ -2,12 +2,11 @@ import { useState } from "react";
 import styles from "./login.module.css";
 import Api from "../api/api";
 import { useNavigate } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import AuthService, { saveToken } from "../services/auth.service";
 
 export default function LoginPage() {
   const api = new Api();
   const navigate = useNavigate();
-  const authService = new AuthService();
 
   const [login, setLogin] = useState({
     username: "",
@@ -18,8 +17,8 @@ export default function LoginPage() {
     api
       .login(login)
       .then((response: any) => {
-        authService.setLoggedUser(response);
-        navigate("/tasks");
+        saveToken(response.data);
+        navigate("tasks");
       })
       .catch((error) => {
         console.log(error);
@@ -63,9 +62,7 @@ export default function LoginPage() {
             required
           />
         </div>
-        <button type="submit" onClick={() => handleLogin()}>
-          Entrar
-        </button>
+        <button onClick={handleLogin}>Entrar</button>
       </form>
       <p className={styles.register}>
         Não possui uma conta? <a href="/register">Registrar-se</a>
