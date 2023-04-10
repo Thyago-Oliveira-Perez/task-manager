@@ -19,5 +19,5 @@ export class LogInResponse {
     example: 'admin',
     description: `Password used to validate the user session`,
   })
-  acess_token: string;
+  access_token: string;
 }
