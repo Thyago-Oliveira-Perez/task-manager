@@ -1,17 +1,11 @@
 import axios, { AxiosInstance } from "axios";
-import { LoginResponse } from "../login/types";
-import AuthService from "../services/auth.service";
+import { getToken, isAuthenticated } from "../services/auth.service";
+import LoginResponse from "../pages/login/types";
 
 export default class Api {
   private url = "http://localhost:3000";
 
-  authService = new AuthService();
-
-  authorization = `Bearer ${
-    this.authService.getUser() !== null
-      ? this.authService.getUser()["acess_token"]
-      : ""
-  }`;
+  authorization = `Bearer ${isAuthenticated() !== null ? getToken() : ""}`;
 
   axiosClient: AxiosInstance = axios.create({
     baseURL: this.url,
@@ -19,6 +13,7 @@ export default class Api {
   });
 
   public async login(login: any): Promise<LoginResponse> {
+    console.log("ta no login:", login);
     return await this.axiosClient.post(`${this.url}/auth`, login);
   }
 

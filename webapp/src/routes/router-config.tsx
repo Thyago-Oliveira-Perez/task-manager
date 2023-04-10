@@ -1,9 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import LoginPage from "../login";
-import { NotFoundPage } from "../not-found";
-import { TasksPage } from "../tasks/list";
+import LoginPage from "../pages/login";
+import { NotFoundPage } from "../components/not-found";
 import PrivateRoutes from "./private-routes";
-import { TasksEditPage } from "../tasks/edit";
+import TaskListPage from "../pages/task";
+// import { TasksEditPage } from "../tasks/edit";
 
 export default function RouterConfig() {
   return (
@@ -11,8 +11,8 @@ export default function RouterConfig() {
       <Route path="/" element={<LoginPage />} />
       <Route path="*" element={<NotFoundPage />} />
       <Route element={<PrivateRoutes />}>
-        <Route path="/tasks" element={<TasksPage />} />
-        <Route path="/tasks/:id" element={<TasksEditPage />} />
+        <Route path="/tasks" element={<TaskListPage />} />
+        {/* <Route path="/tasks/:id" element={<TasksEditPage />} /> */}
       </Route>
     </Routes>
   );
