@@ -28,7 +28,7 @@ export class AuthService {
     });
 
     return {
-      acess_token: token,
+      access_token: token,
     };
   }
 }
