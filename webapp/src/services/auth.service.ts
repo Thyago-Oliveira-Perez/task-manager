@@ -1,29 +1,23 @@
-export default class AuthService {
-  getUser() {
-    const user = localStorage.getItem("user");
-
-    if (user != null) {
-      return JSON.parse(user);
-    }
-
-    return user;
-  }
-
-  logoutUser() {
-    localStorage.removeItem("user");
-  }
-}
-
-export const isAuthenticated = () => {
-  const user = localStorage.getItem("user");
-
-  if (user !== null || user !== undefined) {
-    return true;
-  }
-
-  return false;
+export const logouUser = () => {
+  localStorage.removeItem("user");
 };
 
-export const saveToken = (token: any) => {
+export const getToken = (): string | null => {
+  const user: string | null = localStorage.getItem("user");
+
+  if (isAuthenticated()) {
+    return JSON.parse(user as string)["access_token"];
+  }
+
+  return "";
+};
+
+export const isAuthenticated = (): boolean => {
+  const user = localStorage.getItem("user");
+
+  return user !== null;
+};
+
+export const saveToken = (token: any): void => {
   localStorage.setItem("user", JSON.stringify(token));
 };
