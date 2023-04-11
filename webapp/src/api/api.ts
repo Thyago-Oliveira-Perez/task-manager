@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { getToken, isAuthenticated } from "../services/auth.service";
 import LoginResponse from "../pages/login/types";
+import RegisterResponse from "../pages/register/types";
 
 export default class Api {
   private url = "http://localhost:3000";
@@ -13,8 +14,11 @@ export default class Api {
   });
 
   public async login(login: any): Promise<LoginResponse> {
-    console.log("ta no login:", login);
     return await this.axiosClient.post(`${this.url}/auth`, login);
+  }
+
+  public async register(register: any): Promise<RegisterResponse> {
+    return await this.axiosClient.post(`${this.url}/register`, register);
   }
 
   public async getTaskById(taskId: any) {

@@ -1,0 +1,35 @@
+.h1 {
+  color: blue;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.form_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 90%;
+}
+
+.input {
+  width: 100%;
+  border: solid #145da0 1px;
+  border-radius: 8px;
+  height: 28px;
+}
+
+.register {
+  color: #ffff;
+}
+
+.register strong {
+  color: #145da0;
+}
