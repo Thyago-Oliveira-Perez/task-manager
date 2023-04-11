@@ -38,7 +38,7 @@ const LoginPage = () => {
         <div className={styles.form_section}>
           <label>Password</label>
           <input
-            type="text"
+            type="password"
             onChange={(e) => setLogin({ ...login, username: e.target.value })}
             required
           />
@@ -48,7 +48,7 @@ const LoginPage = () => {
           <button onClick={handleLogin}>Login</button>
           <p className={styles.register}>
             Não possuí conta?{" "}
-            <a href="/register">
+            <a onClick={() => navigate("/register")}>
               <strong>Registre-se</strong>
             </a>
           </p>

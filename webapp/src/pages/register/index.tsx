@@ -9,13 +9,13 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const [register, setRegister] = useState({
-    username: "",
+    name: "",
     password: "",
   });
 
   const handleLogin = () => {
-    api.login(register).then((response: any) => {
-      navigate("tasks");
+    api.register(register).then((response: any) => {
+      navigate("/");
     });
   };
 
@@ -39,10 +39,8 @@ const RegisterPage = () => {
         <div className={styles.form_section}>
           <label>Password</label>
           <input
-            type="text"
-            onChange={(e) =>
-              setRegister({ ...register, username: e.target.value })
-            }
+            type="password"
+            onChange={(e) => setRegister({ ...register, name: e.target.value })}
             required
           />
         </div>
