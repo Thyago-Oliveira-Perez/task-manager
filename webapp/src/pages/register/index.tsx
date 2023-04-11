@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Api from "../../api/api";
-import { saveToken } from "../../services/auth.service";
 import { useState } from "react";
-import styles from "./login.module.css";
+import styles from "./register.module.css";
 
 const RegisterPage = () => {
   const api = new Api();
@@ -16,7 +15,6 @@ const RegisterPage = () => {
 
   const handleLogin = () => {
     api.login(register).then((response: any) => {
-      saveToken(response.data);
       navigate("tasks");
     });
   };
@@ -24,7 +22,8 @@ const RegisterPage = () => {
   return (
     <>
       <h1 className={styles.h1}>
-        Bem vindo <br /> de volta!
+        Ficaremos felizes <br />
+        em lhe atender!
       </h1>
       <div className={styles.form}>
         <div className={styles.form_section}>
