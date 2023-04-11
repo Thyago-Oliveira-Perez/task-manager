@@ -26,6 +26,10 @@
   height: 28px;
 }
 
-.register a {
+.register {
+  color: #ffff;
+}
+
+.register strong {
   color: #145da0;
 }
