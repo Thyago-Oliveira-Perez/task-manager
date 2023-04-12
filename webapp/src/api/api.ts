@@ -21,6 +21,14 @@ export default class Api {
     return await this.axiosClient.post(`${this.url}/register`, register);
   }
 
+  public async createTask(task: any) {
+    return await this.axiosClient.post(`${this.url}/task`, task, {
+      headers: {
+        Authorization: this.authorization,
+      },
+    });
+  }
+
   public async getTaskById(taskId: any) {
     return await this.axiosClient.get(`${this.url}/task/${taskId}`);
   }

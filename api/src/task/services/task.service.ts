@@ -23,18 +23,17 @@ export class TaskService {
     private jwtService: JwtService,
   ) {}
 
-  async createTask(task: NewTask, request: Request): Promise<NewTaskReturn> {
+  async createTask(task: NewTask, request: Request): Promise<TaskResponse> {
     const userId = await this.getUserIdFromToken(request);
 
-    let newTask: Task = null;
+    let newTask: Task = new Task();
 
     newTask.title = task.title;
     newTask.content = task.content;
     newTask.userId = userId;
 
     try {
-      await this.taskRepository.save(newTask);
-      return { message: 'new Task registered' };
+      return await this.taskRepository.save(newTask);
     } catch (e) {
       this.logger.log(e.message);
     }

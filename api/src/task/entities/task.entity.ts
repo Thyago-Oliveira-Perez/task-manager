@@ -8,6 +8,8 @@ import {
 
 @Entity()
 export class Task implements ITask {
+  constructor() {}
+
   @PrimaryGeneratedColumn()
   id: number;
 

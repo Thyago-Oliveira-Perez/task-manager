@@ -22,7 +22,7 @@ export class TaskController {
   async createTask(
     @Body() newTask: NewTask,
     @Req() req: Request,
-  ): Promise<NewTaskReturn> {
+  ): Promise<TaskResponse> {
     return this.taskService.createTask(newTask, req);
   }
   //#endregion
