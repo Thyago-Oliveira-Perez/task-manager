@@ -1,5 +1,5 @@
-import { Task } from 'api/src/task/entities/task.entity';
-import { User } from 'api/src/user/entities/user.entity';
+import { Task } from 'src/task/entities/task.entity';
+import { User } from 'src/user/entities/user.entity';
 import { Connection } from 'typeorm';
 
 export default class UserSeeder {

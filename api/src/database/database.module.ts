@@ -7,11 +7,11 @@ import { User } from '../user/entities/user.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: '172.20.0.4',
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'task_manager',
+      database: 'postgres',
       entities: [Task, User],
       synchronize: true,
     }),

@@ -4,8 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './main.module';
 import { Connection } from 'typeorm';
 import UserSeeder from './database/seeds/userSeeder';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
 
 async function bootstrap() {
   const logger = new Logger();
@@ -20,7 +18,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('/docs', app, document);
 
   //#region Seeder
   const connection = app.get(Connection);
@@ -28,9 +26,7 @@ async function bootstrap() {
   await UserSeeder.run(connection);
   //#endregion
 
-  await app.listen(process.env.PORT);
-  logger.log(
-    `Application running on port: http://localhost:${process.env.PORT}`,
-  );
+  logger.log(`Application running on port: http://localhost:${3000}`);
+  await app.listen(3000);
 }
 bootstrap();

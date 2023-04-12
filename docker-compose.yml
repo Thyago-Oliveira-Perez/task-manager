@@ -1,0 +1,48 @@
+version: '3.3'
+
+networks:
+  task_manager_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+services:
+  app:
+    container_name: webapp
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      task_manager_network:
+        ipv4_address: 172.20.0.2
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - '7070:3000'
+    depends_on:
+      - postgres
+    networks:
+      task_manager_network:
+        ipv4_address: 172.20.0.3
+        
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - APP_DB_USER=postgres
+      - APP_DB_PASS=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      task_manager_network:
+        ipv4_address: 172.20.0.4
