@@ -46,6 +46,13 @@ const RegisterPage = () => {
         </div>
 
         <div className={styles.form_section}>
+          <button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            {"Voltar"}
+          </button>
           <button onClick={handleLogin}>Register</button>
         </div>
       </div>
