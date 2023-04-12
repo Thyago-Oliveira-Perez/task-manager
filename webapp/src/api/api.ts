@@ -4,7 +4,7 @@ import LoginResponse from "../pages/login/types";
 import RegisterResponse from "../pages/register/types";
 
 export default class Api {
-  private url = "http://172.25.0.3:3000";
+  private url = "http://localhost:7070";
 
   authorization = `Bearer ${isAuthenticated() !== null ? getToken() : ""}`;
 
