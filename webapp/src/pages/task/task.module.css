@@ -1,0 +1,30 @@
+.tasks {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid #ffff;
+  border-radius: 10px;
+  margin: 0 0 10px 0;
+  gap: 20px;
+  width: auto;
+}
+
+.task p {
+  width: 40%;
+}
+
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #ff4d4d;
+  width: 20%;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #4da6ff;
+  width: 20%;
+}

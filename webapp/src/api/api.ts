@@ -33,6 +33,10 @@ export default class Api {
     });
   }
 
+  public async editTask(taskId: any, task: any) {
+    this.axiosClient.put(`${this.url}/task/${taskId}`, task);
+  }
+
   public async deleteTaskById(taskId: any) {
     return await this.axiosClient.delete(`${this.url}/task/${taskId}`);
   }
